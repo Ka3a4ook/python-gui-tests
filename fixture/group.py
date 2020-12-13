@@ -26,3 +26,13 @@ class GroupHelper:
 
     def close_group_editor(self):
         self.group_editor.close()
+
+    def delete_group(self, group):
+        self.open_group_editor()
+        self.group_editor.window(name="%s" % group).click()
+        self.group_editor.window(auto_id="uxDeleteAddressButton").click()
+        self.delete_group_window = self.app.application.window(title="Delete group")
+        self.delete_group_window.wait("visible")
+        self.delete_group_window.window(auto_id="uxDeleteAllRadioButton").click()
+        self.delete_group_window.window(auto_id="uxOKAddressButton").click()
+        self.close_group_editor()
