@@ -1,3 +1,6 @@
+from model.group import Group
+
+
 class GroupHelper:
 
     def __init__(self, app):
@@ -7,7 +10,9 @@ class GroupHelper:
         self.open_group_editor()
         tree = self.group_editor.window(auto_id="uxAddressTreeView")
         root = tree.tree_root()
-        group_list = [node.text() for node in root.children()]
+        group_list = []
+        for node in enumerate(root.children()):
+            group_list.append(Group(id=node[0], name=node[1].text()))
         self.close_group_editor()
         return group_list
 
@@ -29,7 +34,9 @@ class GroupHelper:
 
     def delete_group(self, group):
         self.open_group_editor()
-        self.group_editor.window(title="%s" % group).click()
+        tree = self.group_editor.window(auto_id="uxAddressTreeView")
+        root = tree.tree_root()
+        root.children()[group.id].click()
         self.group_editor.window(auto_id="uxDeleteAddressButton").click()
         self.delete_group_window = self.app.application.window(title="Delete group")
         self.delete_group_window.wait("visible")

@@ -1,3 +1,4 @@
+from model.group import Group
 import random
 
 
@@ -9,4 +10,4 @@ def test_delete_group(app):
     app.groups.delete_group(random_group)
     new_list = app.groups.get_group_list()
     old_list.remove(random_group)
-    assert sorted(old_list) == sorted(new_list)
+    assert sorted(old_list, key=Group.id_or_max) == sorted(new_list, key=Group.id_or_max)
